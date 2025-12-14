@@ -1,0 +1,31 @@
+{
+  "name": "e-shop",
+  "version": "2.0.0",
+  "description": "e-commerce application built with the MERN stack",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "server": "nodemon backend/server.js",
+    "client": "npm start --prefix frontend",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rae99/e-shop-demo.git"
+  },
+  "author": "Rae",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Rae99/e-shop-demo/issues"
+  },
+  "homepage": "https://github.com/Rae99/e-shop-demo#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "dotenv": "^17.2.3",
+    "nodemon": "^3.1.11"
+  }
+}
