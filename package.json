@@ -21,7 +21,8 @@
   },
   "homepage": "https://github.com/Rae99/e-shop-demo#readme",
   "dependencies": {
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "mongoose": "^9.0.2"
   },
   "devDependencies": {
     "concurrently": "^9.2.1",
