@@ -1,24 +1,26 @@
-import bcrypt from "bcryptjs";
+import bcrypt from 'bcryptjs';
 
 const users = [
   {
-    name: "Admin User",
-    email: "admin@example.com",
-    password: bcrypt.hashSync("123456", 10),
+    name: 'Admin User',
+    email: 'admin@example.com',
+    password: bcrypt.hashSync('123456', 10),
     isAdmin: true,
   },
   {
-    name: "John Doe",
-    email: "john@example.com",
-    password: bcrypt.hashSync("123456", 10),
+    name: 'John Doe',
+    email: 'john@example.com',
+    password: bcrypt.hashSync('123456', 10),
     isAdmin: false,
   },
-    {
-    name: "Jane Doe",
-    email: "jane@example.com",
-    password: bcrypt.hashSync("123456", 10),
+  {
+    name: 'Jane Doe',
+    email: 'jane@example.com',
+    password: bcrypt.hashSync('123456', 10),
     isAdmin: false,
   },
 ];
 
-export default users;   
+// we only store the hash of the password in the database.
+
+export default users;
