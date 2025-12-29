@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom'
 
 const ProductScreen = () => {
     const { id: productId } = useParams()
-    const [product, setProduct] = useState(null);
+    const [product, setProduct] = useState({});
     useEffect(() => {
         const fetchProduct = async () => {
             const { data } = await axios.get(`/api/products/${productId}`);
