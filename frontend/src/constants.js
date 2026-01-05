@@ -1,4 +1,5 @@
-const BASE_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:5001' : '';
+// const BASE_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:5001' : '';
+const BASE_URL = '';
 const PRODUCTS_URL = '/api/products';
 const USERS_URL = '/api/users';
 const ORDERS_URL = '/api/orders';

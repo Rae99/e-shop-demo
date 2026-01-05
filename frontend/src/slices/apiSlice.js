@@ -11,4 +11,9 @@ export const apiSlice = createApi({
     endpoints: (builder) => ({}),
 });
 
+// apiSlice is like the parent of all the other api slices,
+// instead of putting endpoints here, 
+// we will extend this apiSlice in other files, such as productApiSlice.js, userApiSlice.js, orderApiSlice.js
+
 export default apiSlice;
+
