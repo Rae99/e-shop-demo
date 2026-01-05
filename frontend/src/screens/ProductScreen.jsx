@@ -2,7 +2,9 @@ import { useParams } from 'react-router-dom';
 import { Row, Col, Image, ListGroup, Card, Button } from 'react-bootstrap';
 import Rating from '../components/Rating';
 import { Link } from 'react-router-dom';
-import { useGetProductDetailsQuery } from '../slices/productsApiSlice.js';
+import { useGetProductDetailsQuery } from '../slices/productsApiSlice .js';
+import Loader from '../components/Loader.jsx';
+import Message from '../components/Message.jsx';
 
 const ProductScreen = () => {
   const { id: productId } = useParams();
@@ -13,11 +15,11 @@ const ProductScreen = () => {
   } = useGetProductDetailsQuery(productId);
 
   if (isLoading) {
-    return <h2>Loading...</h2>;
+    return <Loader />;
   }
 
   if (error) {
-    return <div>{error?.data?.message || error.error}</div>;
+    return <Message variant="danger">{error?.data?.message || error.error}</Message>;
   }
 
   return (
