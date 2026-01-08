@@ -13,6 +13,10 @@ const app = express();
 
 connectDB();
 
+// Middleware to parse JSON bodies
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.get('/', (req, res) => {
   res.send('API is running...');
 });
