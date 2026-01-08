@@ -18,11 +18,17 @@ const cartSlice = createSlice({
                 state.cartItems = [...state.cartItems, item];
             } // Update cartItems immutably
 
+            // update cart prices and save to localStorage
             return updateCart(state);  
     },
+        removeFromCart: (state, action) => {
+            const id = action.payload;
+            state.cartItems = state.cartItems.filter(x => x._id !== id);
+            return updateCart(state);
+        },
     },
 });
 
-export const {addToCart} = cartSlice.actions;
+export const {addToCart, removeFromCart} = cartSlice.actions;
 
 export default cartSlice.reducer;
