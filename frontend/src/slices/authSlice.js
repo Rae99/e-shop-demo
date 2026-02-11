@@ -12,10 +12,14 @@ const authSlice = createSlice({
             const userInfo = action.payload;
             state.userInfo = userInfo;
             localStorage.setItem('userInfo', JSON.stringify(userInfo));
-        }
-    },
+        },
+        logout: (state) => {
+            state.userInfo = null;
+            localStorage.removeItem('userInfo');
+        }, // action can be emitted when we don't need the payload
+    }, // Reducers don’t trigger actions — dispatch does. Reducers only receive actions.
 });
 
-export const {setCredentials} = authSlice.actions;
+export const {setCredentials, logout} = authSlice.actions;
 
 export default authSlice.reducer;

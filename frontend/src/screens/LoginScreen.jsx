@@ -22,6 +22,8 @@ const LoginScreen = () => {
   const { search } = useLocation();
   const sp = new URLSearchParams(search);
   const redirect = sp.get('redirect') || '/';
+  // if user is already logged in, redirect to home page or the page specified in redirect query param
+  // for example, shipping page will redirect to login page with redirect=shipping, so after login, user will be redirected to shipping page
 
   useEffect(() => {
     if (userInfo) {

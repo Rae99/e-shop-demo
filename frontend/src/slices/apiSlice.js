@@ -16,5 +16,7 @@ export const apiSlice = createApi({
 // instead of putting endpoints here, 
 // we will extend this apiSlice in other files, such as productApiSlice.js, userApiSlice.js, orderApiSlice.js
 
+// injectEndpoints is used to add endpoints to an existing api slice
+
 export default apiSlice;
 

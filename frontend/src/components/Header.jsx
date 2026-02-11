@@ -4,13 +4,26 @@ import logo from '../assets/logo.png';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useSelector } from 'react-redux';
 import { NavDropdown } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
+import { logout } from '../slices/authSlice';
+import { useNavigate } from 'react-router';
+import { useLogoutMutation } from '../slices/usersApiSlice.js';
 
 const Header = () => {
   const { cartItems } = useSelector((state) => state.cart);
   const { userInfo } = useSelector((state) => state.auth);
-  const logoutHandler = () => {
-    // logout logic here
-    console.log('Logout');
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [logoutApi] = useLogoutMutation();
+
+  const logoutHandler = async () => {
+    try {
+      await logoutApi().unwrap(); // needs unwrap since it's gonna give us a promise with either data or error, and we want to catch the error if it fails
+      dispatch(logout());
+      navigate('/login');
+    } catch (error) {
+      console.error('Failed to logout:', error);
+    }
   };
 
   return (
