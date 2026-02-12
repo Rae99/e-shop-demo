@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {updateCart} from '../utils/cartUtils.js';
 
-const initialState = localStorage.getItem('cart')? JSON.parse(localStorage.getItem('cart')) : { cartItems: [] };
+const initialState = localStorage.getItem('cart')? JSON.parse(localStorage.getItem('cart')) : { cartItems: [], shippingAddress: {}, paymentMethod: 'PayPal'};
 // localStorage can only store strings, so we use JSON.stringify and JSON.parse to store and retrieve complex data types like arrays and objects.
 
 const cartSlice = createSlice({
@@ -26,9 +26,17 @@ const cartSlice = createSlice({
             state.cartItems = state.cartItems.filter(x => x._id !== id);
             return updateCart(state);
         },
+        saveShippingAddress: (state, action) => {
+            state.shippingAddress = action.payload;
+            return updateCart(state);
+        },
+        savePaymentMethod: (state, action) => {
+            state.paymentMethod = action.payload;
+            return updateCart(state);
+        }
     },
 });
 
-export const {addToCart, removeFromCart} = cartSlice.actions;
+export const {addToCart, removeFromCart, saveShippingAddress, savePaymentMethod} = cartSlice.actions;
 
 export default cartSlice.reducer;
