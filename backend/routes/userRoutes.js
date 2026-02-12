@@ -11,5 +11,6 @@ router.route('/profile').get(protect, getUserProfile).put(protect, updateUserPro
 router.route('/:id').get(protect, admin, getUserById).delete(protect, admin, deleteUser).put(protect, admin, updateUser);
 router.post('/login', authUser);
 router.post('/logout', logoutUser);
+router.post('/register', registerUser);
 
 export default router;
