@@ -1,5 +1,5 @@
 import {apiSlice} from './apiSlice';
-import { ORDERS_URL } from '../constants.js';
+import { ORDERS_URL, PAYPAL_URL } from '../constants.js';
 
 export const ordersApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
@@ -10,7 +10,33 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
                 body: orderData,
             }),
         }),
+        getOrder: builder.query({
+            query: (id) => ({
+                url: `${ORDERS_URL}/${id}`,
+                method: 'GET',
+            }),
+            keepUnusedDataFor: 5, // keep the order data in cache for 5 seconds after the component unmounts, so if we navigate back to the order details page within 5 seconds, we can show the cached data instead of fetching it again from the server
+        }),
+        payOrder: builder.mutation({
+            query: ({ id, paymentResult }) => ({
+                url: `${ORDERS_URL}/${id}/pay`,
+                method: 'PUT',
+                body: paymentResult,
+            }),
+        }), // =confirmOrderWasPaid
+        getPayPalClientId: builder.query({
+            query: () => ({
+                url: PAYPAL_URL,
+                method: 'GET',
+            }),
+        }), // get client id from the server, so we can use it in the PayPalScriptProvider component in index.js
+        deliverOrder: builder.mutation({
+            query: (id) => ({
+                url: `${ORDERS_URL}/${id}/deliver`,
+                method: 'PUT',
+            }),
+        }), 
     }),
 });
 
-export const { useCreateOrderMutation } = ordersApiSlice;
+export const { useCreateOrderMutation, useGetOrderQuery, usePayOrderMutation, useDeliverOrderMutation, useGetPayPalClientIdQuery } = ordersApiSlice;
