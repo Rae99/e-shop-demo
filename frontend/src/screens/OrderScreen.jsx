@@ -8,6 +8,7 @@ import Loader from '../components/Loader.jsx';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Image from 'react-bootstrap/Image';
+import Button from 'react-bootstrap/Button';
 
 import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
 import {
@@ -15,21 +16,21 @@ import {
   usePayOrderMutation,
   useGetPayPalClientIdQuery,
 } from '../slices/ordersApiSlice.js';
+import { toast } from 'react-toastify';
 
 const OrderScreen = () => {
   const navigate = useNavigate();
   const { userInfo } = useSelector((state) => state.auth);
   const orderId = useParams().id;
-  const { data: order, isLoading, error } = useGetOrderQuery(orderId);
+  const { data: order, isLoading, error, refetch } = useGetOrderQuery(orderId);
 
+  const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
   const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation(); // rename loadingPay to avoid conflict with isLoading from getOrder query
   const {
     data: paypalClientId,
     isLoading: loadingPayPalClientId,
     error: errorPayPalClientId,
   } = useGetPayPalClientIdQuery();
-
-  const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
 
   useEffect(() => {
     if (!errorPayPalClientId && !loadingPayPalClientId && paypalClientId) {
@@ -57,6 +58,58 @@ const OrderScreen = () => {
     paypalClientId,
     paypalDispatch,
   ]);
+
+  const onApprove = async (data, actions) => {
+    try {
+      const details = await actions.order.capture();
+      await payOrder({ id: order._id, paymentResult: details }).unwrap();
+      refetch();
+      toast.success('Payment successful!');
+    } catch (err) {
+      console.error(err);
+      toast.error(err?.data?.message || err.error);
+    }
+  };
+
+  const onApproveTest = async () => {
+    try {
+      await payOrder({
+        id: order._id,
+        paymentResult: {
+          id: 'TEST12345',
+          status: 'COMPLETED',
+          update_time: new Date().toISOString(),
+          payer: {
+            email_address: userInfo.email,
+          },
+        },
+      }).unwrap();
+      refetch();
+    } catch (err) {
+      console.error(err);
+      toast.error(err?.data?.message || err.error);
+    }
+  };
+
+  const onError = (err) => {
+    toast.error(err.message);
+  };
+
+  const createOrder = (data, actions) => {
+    return actions.order
+      .create({
+        purchase_units: [
+          {
+            amount: {
+              value: order.totalPrice,
+            },
+          },
+        ],
+      })
+      .then((orderID) => {
+        return orderID;
+      });
+  };
 
   return (
     <>
@@ -169,7 +222,30 @@ const OrderScreen = () => {
                   </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>
-                  {/* place hodler for pay order */}
+                  {!order.isPaid && (
+                    <ListGroup.Item>
+                      {loadingPay && <Loader />}
+                      {isPending ? (
+                        <Loader />
+                      ) : (
+                        <div>
+                          <Button
+                            onClick={onApproveTest}
+                            style={{ marginBottom: '10px' }}
+                          >
+                            Test Pay
+                          </Button>
+
+                          <PayPalButtons
+                            createOrder={createOrder}
+                            onApprove={onApprove}
+                            onError={onError}
+                          />
+                        </div>
+                      )}
+                    </ListGroup.Item>
+                  )}
+
                   {/* place holder for mark as delivered  */}
                 </ListGroup.Item>
               </ListGroup>
