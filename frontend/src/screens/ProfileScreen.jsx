@@ -6,22 +6,27 @@ import { toast } from 'react-toastify';
 import Loader from '../components/Loader.jsx';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { Col, Row } from 'react-bootstrap';
+import { Col, Row, Tab } from 'react-bootstrap';
 import { setCredentials } from '../slices/authSlice.js';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
+import { useGetUserDetailsQuery } from '../slices/usersApiSlice.js';
+import { FaTimes } from 'react-icons/fa';
+import Message from '../components/Message.jsx';
+import { useGetMyOrdersQuery } from '../slices/ordersApiSlice.js';
+import Table from 'react-bootstrap/Table';
+import { Link } from 'react-router-dom';
 
 const ProfileScreen = () => {
   const dispatch = useDispatch();
-
   const { userInfo } = useSelector((state) => state.auth);
   const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [confirmPassword, setConfirmPassword] = React.useState('');
   const [updateUserProfile, { isLoading: loadingUpdateProfile }] =
-    useUpdateUserProfileMutation();
-
+    useUpdateUserProfileMutation(); // rename isLoading to loadingUpdateProfile to avoid conflict with orders loading state
+  const { data: orders, isLoading, error } = useGetMyOrdersQuery();
   const submitHandler = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
@@ -53,6 +58,7 @@ const ProfileScreen = () => {
     }
   }, [userInfo, userInfo.name, userInfo.email]);
 
+  console.log('orders sample:', orders?.[0]);
   return (
     <Row>
       <Col md={3}>
@@ -101,7 +107,65 @@ const ProfileScreen = () => {
           {loadingUpdateProfile && <Loader />}
         </Form>
       </Col>
-      <Col md={9}></Col>
+      <Col md={9}>
+        <h2>My Orders</h2>
+        {isLoading ? (
+          <Loader />
+        ) : error ? (
+          <Message variant="danger">
+            {error?.data?.message || error.error}
+          </Message>
+        ) : (
+          <Table striped bordered hover responsive className="table-sm">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>DATE</th>
+                <th>TOTAL</th>
+                <th>PAID</th>
+                <th>DELIVERED</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {orders &&
+                orders.map((order) => (
+                  <tr key={order._id}>
+                    <td>{order._id}</td>
+                    <td>
+                      {order.createdAt && order.createdAt.substring(0, 10)}
+                    </td>
+                    <td>${order.totalPrice}</td>
+                    <td>
+                      {order.isPaid ? (
+                        order.paidAt && order.paidAt.substring(0, 10)
+                      ) : (
+                        <FaTimes style={{ color: 'red' }} />
+                      )}
+                    </td>
+                    <td>
+                      {order.isDelivered ? (
+                        order.deliveredAt && order.deliveredAt.substring(0, 10)
+                      ) : (
+                        <FaTimes style={{ color: 'red' }} />
+                      )}
+                    </td>
+                    <td>
+                      <Button
+                        as={Link}
+                        to={`/order/${order._id}`}
+                        variant="light"
+                        className="btn-sm"
+                      >
+                        Details
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </Table>
+        )}
+      </Col>
     </Row>
   );
 };
