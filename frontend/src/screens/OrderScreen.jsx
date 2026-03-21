@@ -15,6 +15,7 @@ import {
   useGetOrderQuery,
   usePayOrderMutation,
   useGetPayPalClientIdQuery,
+  useDeliverOrderMutation,
 } from '../slices/ordersApiSlice.js';
 import { toast } from 'react-toastify';
 
@@ -26,6 +27,8 @@ const OrderScreen = () => {
 
   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
   const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation(); // rename loadingPay to avoid conflict with isLoading from getOrder query
+  const [deliverOrder, { isLoading: loadingDeliver }] =
+    useDeliverOrderMutation();
   const {
     data: paypalClientId,
     isLoading: loadingPayPalClientId,
@@ -109,6 +112,17 @@ const OrderScreen = () => {
       .then((orderID) => {
         return orderID;
       });
+  };
+
+  const deliverOrderHandler = async () => {
+    try {
+      await deliverOrder(order._id).unwrap();
+      refetch();
+      toast.success('Order marked as delivered!');
+    } catch (err) {
+      console.error(err);
+      toast.error(err?.data?.message || err.error);
+    }
   };
 
   return (
@@ -246,7 +260,21 @@ const OrderScreen = () => {
                     </ListGroup.Item>
                   )}
 
-                  {/* place holder for mark as delivered  */}
+                  {loadingDeliver && <Loader />}
+                  {userInfo &&
+                    userInfo.isAdmin &&
+                    order.isPaid &&
+                    !order.isDelivered && (
+                      <ListGroup.Item>
+                        <Button
+                          type="button"
+                          variant="primary"
+                          onClick={deliverOrderHandler}
+                        >
+                          Mark as Delivered
+                        </Button>
+                      </ListGroup.Item>
+                    )}
                 </ListGroup.Item>
               </ListGroup>
             </Card>
