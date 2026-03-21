@@ -16,6 +16,7 @@ import Message from '../components/Message.jsx';
 import { useGetMyOrdersQuery } from '../slices/ordersApiSlice.js';
 import Table from 'react-bootstrap/Table';
 import { Link } from 'react-router-dom';
+import { LinkContainer } from 'react-router-bootstrap';
 
 const ProfileScreen = () => {
   const dispatch = useDispatch();
@@ -116,7 +117,7 @@ const ProfileScreen = () => {
             {error?.data?.message || error.error}
           </Message>
         ) : (
-          <Table striped bordered hover responsive className="table-sm">
+          <Table striped hover responsive className="table-sm">
             <thead>
               <tr>
                 <th>ID</th>
@@ -138,7 +139,7 @@ const ProfileScreen = () => {
                     <td>${order.totalPrice}</td>
                     <td>
                       {order.isPaid ? (
-                        order.paidAt && order.paidAt.substring(0, 10)
+                        order.paidAt && order.paidAt.substring(0, 10) // show only the date part, not the time part
                       ) : (
                         <FaTimes style={{ color: 'red' }} />
                       )}
@@ -160,6 +161,13 @@ const ProfileScreen = () => {
                         Details
                       </Button>
                     </td>
+                    {/* <td>
+                      <LinkContainer to={`/order/${order._id}`}>
+                        <Button variant="light" className="btn-sm">
+                          Details
+                        </Button>
+                      </LinkContainer>
+                    </td> */}
                   </tr>
                 ))}
             </tbody>

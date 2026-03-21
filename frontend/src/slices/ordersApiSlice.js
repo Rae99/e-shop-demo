@@ -40,7 +40,14 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
             }),
             invalidatesTags: (result, error, id) => [{ type: 'Order', id }],
         }), 
+        getMyOrders: builder.query({
+            query: () => ({
+                url: `${ORDERS_URL}/mine`,
+                method: 'GET',
+            }),
+            keepUnusedDataFor: 5,
+        }),
     }),
 });
 
-export const { useCreateOrderMutation, useGetOrderQuery, usePayOrderMutation, useDeliverOrderMutation, useGetPayPalClientIdQuery } = ordersApiSlice;
+export const { useCreateOrderMutation, useGetOrderQuery, usePayOrderMutation, useDeliverOrderMutation, useGetPayPalClientIdQuery, useGetMyOrdersQuery } = ordersApiSlice;
