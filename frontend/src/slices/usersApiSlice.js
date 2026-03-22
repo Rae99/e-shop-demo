@@ -60,6 +60,21 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         }),
         invalidatesTags: ['Users'], // invalidate the User tag, so the user list will be refetched after a user is updated
     }),
+    getUserDetails: builder.query({
+        query: (id) => ({
+            url: `${USERS_URL}/${id}`,
+            method: 'GET',
+        }),
+        keepUnusedDataFor: 5,
+    }),
+    updateUser: builder.mutation({
+        query: (updatedUser) => ({
+            url: `${USERS_URL}/${updatedUser._id}`,
+            method: 'PUT',
+            body: updatedUser,
+        }),
+        invalidatesTags: ['Users'], // invalidate the User tag, so the user list will be refetched after a user is updated
+    }),
     }),
 });
 
