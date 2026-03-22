@@ -36,7 +36,31 @@ export const usersApiSlice = apiSlice.injectEndpoints({
             method: 'GET',
         }),
     }),
-  }),
+    getUsers: builder.query({
+        query: () => ({
+            url: `${USERS_URL}`,
+            method: 'GET',
+        }),
+        providesTags: ['Users'], // provide the User tag, so the user list will be refetched after a new user is created or updated (when the User tag is invalidated)
+        keepUnusedDataFor: 5, // keep data in the cache for 5 seconds after the last component unsubscribes
+        }),
+  
+    deleteUser: builder.mutation({
+        query: (id) => ({
+            url: `${USERS_URL}/${id}`,
+            method: 'DELETE',
+        }),
+        invalidatesTags: ['Users'], // invalidate the User tag, so the user list will be refetched after a user is deleted
+    }),
+    updateUser: builder.mutation({
+        query: (updatedUser) => ({
+            url: `${USERS_URL}/${updatedUser._id}`,
+            method: 'PUT',
+            body: updatedUser,
+        }),
+        invalidatesTags: ['Users'], // invalidate the User tag, so the user list will be refetched after a user is updated
+    }),
+    }),
 });
-    
-export const { useLoginMutation, useLogoutMutation, useRegisterMutation, useUpdateUserProfileMutation, useGetUserDetailsQuery } = usersApiSlice;
+
+export const { useLoginMutation, useLogoutMutation, useRegisterMutation, useUpdateUserProfileMutation, useGetUserDetailsQuery, useGetUsersQuery, useDeleteUserMutation, useUpdateUserMutation } = usersApiSlice;

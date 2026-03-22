@@ -30,6 +30,7 @@ import PaymentScreen from './screens/PaymentScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import OrderScreen from './screens/OrderScreen';
 import ProfileScreen from './screens/ProfileScreen';
+import UserListScreen from './screens/admin/UserListScreen.jsx';
 import {PayPalScriptProvider} from '@paypal/react-paypal-js';
 
 const router = createBrowserRouter(
@@ -56,6 +57,7 @@ const router = createBrowserRouter(
         <Route path="admin/orders" element={<OrderListScreen />} />
         <Route path="admin/order/:id" element={<OrderScreen />} /> {/* Reuse OrderScreen for admin order details */}
         <Route path="admin/product/:id/edit" element={<ProductEditScreen />} />
+        <Route path="admin/users" element={<UserListScreen />} /> {/* Move UserListScreen route inside AdminRoute to protect it with admin access control */} 
       </Route>
 
     </Route>
