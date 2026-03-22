@@ -1,3 +1,4 @@
+import path from 'path';
 import express from 'express';
 
 import dotenv from 'dotenv';
@@ -7,6 +8,7 @@ import userRoutes from './routes/userRoutes.js';
 import orderRoutes from './routes/OrderRoutes.js';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 import cookieParser from 'cookie-parser';
+import uploadRoutes from './routes/uploadRoutes.js';
 
 dotenv.config();
 
@@ -32,6 +34,10 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/config/paypal', (req, res) => {
   res.json({ clientId: process.env.PAYPAL_CLIENT_ID || '' });
 });
+app.use('/api/upload', uploadRoutes);
+
+const __dirname = path.resolve(); // get the absolute path of the current directory
+app.use('/uploads', express.static(path.join(__dirname, '/uploads'))); // serve the uploads folder as static files
 
 app.use(notFound);
 app.use(errorHandler);
