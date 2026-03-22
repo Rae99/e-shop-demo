@@ -1,7 +1,6 @@
 import { Card, ListGroup } from 'react-bootstrap';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import Message from '../components/Message.jsx';
 import Loader from '../components/Loader.jsx';
@@ -20,7 +19,6 @@ import {
 import { toast } from 'react-toastify';
 
 const OrderScreen = () => {
-  const navigate = useNavigate();
   const { userInfo } = useSelector((state) => state.auth);
   const orderId = useParams().id;
   const { data: order, isLoading, error, refetch } = useGetOrderQuery(orderId);

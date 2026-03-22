@@ -7,9 +7,10 @@ import {
   RouterProvider,
 } from 'react-router-dom';
 import AdminRoute from './components/AdminRoute.jsx';
-// import UserListScreen from './screens/UserListScreen.jsx';
-// import ProductListScreen from './screens/ProductListScreen.jsx';
+// import UserListScreen from './screens/admin/UserListScreen.jsx';
+import ProductListScreen from './screens/admin/ProductListScreen.jsx';
 import OrderListScreen from './screens/admin/OrderListScreen.jsx';
+import ProductEditScreen from './screens/admin/ProductEditScreen.jsx';
 
 import App from './App';
 // import 'bootstrap/dist/css/bootstrap.min.css';
@@ -51,9 +52,10 @@ const router = createBrowserRouter(
       {/* Admin Routes */}
       <Route element={<AdminRoute />}>
         {/* <Route path="admin/users" element={<UserListScreen />} /> */}
-        {/* <Route path="admin/products" element={<ProductListScreen />} /> */}
+        <Route path="admin/products" element={<ProductListScreen />} />
         <Route path="admin/orders" element={<OrderListScreen />} />
         <Route path="admin/order/:id" element={<OrderScreen />} /> {/* Reuse OrderScreen for admin order details */}
+        <Route path="admin/product/:id/edit" element={<ProductEditScreen />} />
       </Route>
 
     </Route>
