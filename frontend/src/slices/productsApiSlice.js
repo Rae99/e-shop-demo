@@ -52,8 +52,16 @@ export const productsApiSlice = apiSlice.injectEndpoints({
 			invalidatesTags: ['Products'],
 		}),
 
+    createReview: builder.mutation({
+      query: (data) => ({
+        url: `${PRODUCTS_URL}/${data.productId}/reviews`,
+        method: 'POST',
+        body: data.review,
+      }),
+      invalidatesTags: ['Products'],
+    }),
   }),
 });
 
-export const { useGetProductsQuery, useGetProductDetailsQuery, useCreateProductMutation, useUpdateProductMutation, useUploadProductImageMutation, useDeleteProductMutation } = productsApiSlice;
+export const { useGetProductsQuery, useGetProductDetailsQuery, useCreateProductMutation, useUpdateProductMutation, useUploadProductImageMutation, useDeleteProductMutation, useCreateReviewMutation  } = productsApiSlice;
 // the convention to name the hook is use + endpointName + Query (for queries) or Mutation (for mutations)

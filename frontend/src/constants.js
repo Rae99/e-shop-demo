@@ -6,4 +6,4 @@ const ORDERS_URL = '/api/orders';
 const PAYPAL_URL = '/api/config/paypal';
 const UPLOAD_URL = '/api/upload';
 
-export { BASE_URL, PRODUCTS_URL, USERS_URL, ORDERS_URL, PAYPAL_URL, UPLOAD_URL};
+export { BASE_URL, PRODUCTS_URL, USERS_URL, ORDERS_URL, PAYPAL_URL, UPLOAD_URL} ;
