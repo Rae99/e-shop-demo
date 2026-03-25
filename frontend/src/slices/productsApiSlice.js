@@ -5,8 +5,9 @@ import { UPLOAD_URL } from "../constants";
 export const productsApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getProducts: builder.query({
-      query: () => ({
+      query: ({ pageNumber}) => ({
         url: PRODUCTS_URL,
+        params: { pageNumber },
       }),
       keepUnusedDataFor: 5, // keep data in the cache for 5 seconds after the last component unsubscribes
       providesTags: ['Products'], // provide the Product tag, so the product list will be refetched after a new product is created or updated (when the Product tag is invalidated)
