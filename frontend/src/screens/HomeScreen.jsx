@@ -4,6 +4,7 @@ import { Row, Col } from 'react-bootstrap';
 import Loader from '../components/Loader.jsx';
 import Message from '../components/Message.jsx';
 import { useParams } from 'react-router';
+import Paginate from '../components/Paginate.jsx';
 
 
 const HomeScreen = () => {
@@ -30,6 +31,7 @@ const HomeScreen = () => {
           </Col>
         ))}
       </Row>
+      <Paginate page={data.page} pages={data.pages} />
     </>
   );
 };
