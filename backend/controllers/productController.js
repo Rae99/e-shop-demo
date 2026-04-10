@@ -11,6 +11,8 @@ const getProducts = asyncHandler(async (req, res) => {
   const products = await Product.find({}).limit(pageSize).skip(pageSize * (page - 1));
   res.json({ products, page, pages: Math.ceil(count / pageSize) });
 });
+// MongoDB applies skip and limit as pipeline stages in a fixed order regardless of how you chain them — skip always runs before limit. 
+
 
 // @desc    Fetch single product by ID
 // @route   GET /api/products/:id
