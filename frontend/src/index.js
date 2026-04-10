@@ -40,6 +40,8 @@ const router = createBrowserRouter(
       <Route index element={<HomeScreen />} />
       {/* index, or index={true} works the same */}
       <Route path="page/:pageNumber" element={<HomeScreen />} />
+      <Route path="search/:keyword" element={<HomeScreen />} />
+      <Route path="search/:keyword/page/:pageNumber" element={<HomeScreen />} />
       <Route path="product/:id" element={<ProductScreen />} />
       <Route path="cart" element={<CartScreen />} />
       <Route path="login" element={<LoginScreen />} />

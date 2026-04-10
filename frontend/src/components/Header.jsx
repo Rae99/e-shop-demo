@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 import { logout } from '../slices/authSlice';
 import { useNavigate } from 'react-router';
 import { useLogoutMutation } from '../slices/usersApiSlice.js';
+import SearchBox from './SearchBox.jsx';
 
 const Header = () => {
   const { cartItems } = useSelector((state) => state.cart);
@@ -37,6 +38,9 @@ const Header = () => {
           </LinkContainer>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="ms-auto">
+              <SearchBox />
+            </Nav>
             <Nav className="ms-auto">
               {' '}
               {/* ms-auto to push to right, s stands for start(left)*/}
