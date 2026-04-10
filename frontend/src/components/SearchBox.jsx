@@ -10,6 +10,11 @@ const SearchBox = () => {
     e.preventDefault();
     if (keyword.trim()) {
       navigate(`/search/${keyword}`);
+      // [LEARN] These two lines can be in either order — both work correctly.
+      // React state updates are not immediate: setKeyword('') only schedules a re-render.
+      // Within this function call, `keyword` is a snapshot of this render's value (e.g. 'apple'),
+      // so navigate() always reads the original input, regardless of order.
+      // Re-render (where keyword actually becomes '') happens after this handler finishes.
       setKeyword(''); // clear the input box
     } else {
       navigate('/');
