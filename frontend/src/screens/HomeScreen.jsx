@@ -5,11 +5,14 @@ import Loader from '../components/Loader.jsx';
 import Message from '../components/Message.jsx';
 import { useParams } from 'react-router';
 import Paginate from '../components/Paginate.jsx';
-
+import { Link } from 'react-router-dom';
 
 const HomeScreen = () => {
-  const { pageNumber } = useParams();
-  const { data, error, isLoading } = useGetProductsQuery({ pageNumber });
+  const { pageNumber, keyword } = useParams();
+  const { data, error, isLoading } = useGetProductsQuery({
+    pageNumber,
+    keyword,
+  });
 
   if (isLoading) {
     return <Loader />;
@@ -23,6 +26,11 @@ const HomeScreen = () => {
 
   return (
     <>
+      {keyword && (
+        <Link to="/" className="btn btn-light mb-4">
+          Go Back
+        </Link>
+      )}
       <h1>Latest Products</h1>
       <Row>
         {data.products.map((product) => (
@@ -31,7 +39,12 @@ const HomeScreen = () => {
           </Col>
         ))}
       </Row>
-      <Paginate page={data.page} pages={data.pages} />
+      <Paginate
+        page={data.page}
+        pages={data.pages}
+        keyword={keyword ? keyword : ''}
+      />{' '}
+      {/* pass {keyword} is also fine, undefined will be treated as empty string in Paginate component; but note that passing in null will cause issues */}
     </>
   );
 };

@@ -40,6 +40,8 @@ const router = createBrowserRouter(
       <Route index element={<HomeScreen />} />
       {/* index, or index={true} works the same */}
       <Route path="page/:pageNumber" element={<HomeScreen />} />
+      <Route path="search/:keyword" element={<HomeScreen />} />
+      <Route path="search/:keyword/page/:pageNumber" element={<HomeScreen />} />
       <Route path="product/:id" element={<ProductScreen />} />
       <Route path="cart" element={<CartScreen />} />
       <Route path="login" element={<LoginScreen />} />
@@ -56,6 +58,7 @@ const router = createBrowserRouter(
       <Route element={<AdminRoute />}>
         {/* <Route path="admin/users" element={<UserListScreen />} /> */}
         <Route path="admin/products" element={<ProductListScreen />} />
+        <Route path="admin/productlist/:pageNumber" element={<ProductListScreen />} />
         <Route path="admin/orders" element={<OrderListScreen />} />
         <Route path="admin/order/:id" element={<OrderScreen />} /> {/* Reuse OrderScreen for admin order details */}
         <Route path="admin/product/:id/edit" element={<ProductEditScreen />} />
