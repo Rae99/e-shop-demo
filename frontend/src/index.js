@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom';
 import AdminRoute from './components/AdminRoute.jsx';
 // import UserListScreen from './screens/admin/UserListScreen.jsx';
+import {HelmetProvider} from 'react-helmet-async';
 import ProductListScreen from './screens/admin/ProductListScreen.jsx';
 import OrderListScreen from './screens/admin/OrderListScreen.jsx';
 import ProductEditScreen from './screens/admin/ProductEditScreen.jsx';
@@ -74,11 +75,13 @@ const router = createBrowserRouter(
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <HelmetProvider>
     <Provider store={store}>
       <PayPalScriptProvider deferLoading={true}>
         <RouterProvider router={router} />
         </PayPalScriptProvider>
     </Provider>
+    </HelmetProvider>
   </React.StrictMode>
 );
 

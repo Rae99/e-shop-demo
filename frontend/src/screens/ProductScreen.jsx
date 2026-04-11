@@ -20,6 +20,7 @@ import Loader from '../components/Loader.jsx';
 import Message from '../components/Message.jsx';
 import { addToCart } from '../slices/cartSlice.js';
 import { toast } from 'react-toastify';
+import { Helmet } from 'react-helmet-async';
 
 const ProductScreen = () => {
   const { id: productId } = useParams();
@@ -75,6 +76,7 @@ const ProductScreen = () => {
       <Link to="/" className="btn btn-light my-3">
         Go Back
       </Link>
+      <Helmet title={product.name} />
       <Row>
         <Col md={5}>
           <Image src={product.image} alt={product.name} fluid />

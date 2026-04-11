@@ -22,6 +22,14 @@ const getProducts = asyncHandler(async (req, res) => {
 // MongoDB applies skip and limit as pipeline stages in a fixed order regardless of how you chain them — skip always runs before limit. 
 
 
+// @desc    Fetch top rated products
+// @route   GET /api/products/top
+// @access  Public
+const getTopProducts = asyncHandler(async (req, res) => {
+  const products = await Product.find({}).sort({ rating: -1 }).limit(3);
+  res.json(products);
+});
+
 // @desc    Fetch single product by ID
 // @route   GET /api/products/:id
 // @access  Public
@@ -134,4 +142,4 @@ const createProductReview = asyncHandler(async (req, res) => {
   }
 });
 
-export { getProducts, getProductById, createProduct, updateProduct, deleteProduct, createProductReview };
+export { getProducts, getProductById, createProduct, updateProduct, deleteProduct, createProductReview, getTopProducts };
