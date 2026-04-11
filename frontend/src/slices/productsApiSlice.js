@@ -13,6 +13,13 @@ export const productsApiSlice = apiSlice.injectEndpoints({
       providesTags: ['Products'], // provide the Product tag, so the product list will be refetched after a new product is created or updated (when the Product tag is invalidated)
     }),
     
+    getTopProducts: builder.query({
+      query: () => ({
+        url: `${PRODUCTS_URL}/top`,
+      }),
+      keepUnusedDataFor: 5,
+    }),
+     
     getProductDetails: builder.query({
       query: (id) => ({
           url: `${PRODUCTS_URL}/${id}`}),
@@ -64,5 +71,5 @@ export const productsApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetProductsQuery, useGetProductDetailsQuery, useCreateProductMutation, useUpdateProductMutation, useUploadProductImageMutation, useDeleteProductMutation, useCreateReviewMutation  } = productsApiSlice;
+export const { useGetProductsQuery, useGetProductDetailsQuery, useGetTopProductsQuery, useCreateProductMutation, useUpdateProductMutation, useUploadProductImageMutation, useDeleteProductMutation, useCreateReviewMutation  } = productsApiSlice;
 // the convention to name the hook is use + endpointName + Query (for queries) or Mutation (for mutations)
