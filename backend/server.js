@@ -39,7 +39,7 @@ app.use('/uploads', express.static(path.join(__dirname, '/uploads'))); // serve 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '/frontend/build'))); // serve the frontend build folder as static files
 
-  app.get('*', (req, res) => {
+  app.get('(.*)', (req, res) => {
     res.sendFile(path.join(__dirname, '/frontend/build', 'index.html'));
   });
 }else {
